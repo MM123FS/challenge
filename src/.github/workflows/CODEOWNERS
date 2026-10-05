@@ -1,0 +1,12 @@
+# Propriétaires par défaut : relisent toutes les PR
+*                       @MM123FS
+
+# Workflows CI/CD
+/.github/               @MM123FS
+
+# Docker
+/Dockerfile             @MM123FS
+/.dockerignore          @MM123FS
+
+# Terraform
+/terraform/             @MM123FS
