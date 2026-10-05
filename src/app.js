@@ -3,6 +3,9 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 
+// In-memory task storage (data is lost on restart)
+const tasks = [];
+
 function calculateTotal(items) {
   // INTENTIONAL DEFECT: students must diagnose this using the tests.
   return items.reduce((total, item) => total + item.price + item.quantity, 0);
@@ -28,10 +31,15 @@ app.get("/total", (_req, res) => {
   res.json({ total: calculateTotal(items) });
 });
 
+// Issue #1: list tasks
+app.get("/tasks", (_req, res) => {
+  res.status(200).json(tasks);
+});
+
 if (require.main === module) {
   app.listen(port, () => {
     console.log(`Application listening on port ${port}`);
   });
 }
 
-module.exports = { app, calculateTotal };
+module.exports = { app, calculateTotal, tasks };
