@@ -10,3 +10,5 @@
 
 # Terraform
 /terraform/             @MM123FS
+/src/                   @MM123FS
+/test/                   @MM123FS
