@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log*
+.git
+.github
+.gitignore
+.env
+.env.*
+Dockerfile
+.dockerignore
+README.md
+CONTRIBUTING.md
+coverage
+terraform
+test
+tests
