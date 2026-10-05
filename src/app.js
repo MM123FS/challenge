@@ -3,8 +3,16 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json());
+
 function calculateTotal(items) {
   return items.reduce((total, item) => total + item.price * item.quantity, 0);
+}
+
+let tasks = [{ id: 1, title: "Example task", completed: false }];
+
+function findTaskIndex(id) {
+  return tasks.findIndex((task) => task.id === id);
 }
 
 app.get("/", (_req, res) => {
@@ -27,10 +35,28 @@ app.get("/total", (_req, res) => {
   res.json({ total: calculateTotal(items) });
 });
 
+app.patch("/tasks/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = findTaskIndex(id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  const { completed } = req.body;
+
+  if (typeof completed !== "boolean") {
+    return res.status(400).json({ error: "completed must be a boolean" });
+  }
+
+  tasks[index] = { ...tasks[index], completed };
+  res.json(tasks[index]);
+});
+
 if (require.main === module) {
   app.listen(port, () => {
     console.log(`Application listening on port ${port}`);
   });
 }
 
-module.exports = { app, calculateTotal };
+module.exports = { app, calculateTotal, tasks };
