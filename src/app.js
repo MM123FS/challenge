@@ -6,8 +6,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 function calculateTotal(items) {
-  // INTENTIONAL DEFECT: students must diagnose this using the tests.
-  return items.reduce((total, item) => total + item.price + item.quantity, 0);
+  return items.reduce((total, item) => total + item.price * item.quantity, 0);
 }
 
 app.get("/", (_req, res) => {
@@ -39,7 +38,9 @@ let tasks = [
 ];
 
 // --- GET /tasks ---
-
+app.get("/tasks", (_req, res) => {
+  res.status(200).json(tasks);
+});
 // --- POST /tasks ---
 
 // --- PATCH /tasks/:id ---
@@ -62,4 +63,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, calculateTotal };
+module.exports = { app, calculateTotal, tasks };
