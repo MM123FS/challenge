@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json());
+
 function calculateTotal(items) {
   // INTENTIONAL DEFECT: students must diagnose this using the tests.
   return items.reduce((total, item) => total + item.price + item.quantity, 0);
@@ -26,6 +28,32 @@ app.get("/total", (_req, res) => {
   ];
 
   res.json({ total: calculateTotal(items) });
+});
+
+// ---------------------------------------------------------------------------
+// Tasks (in-memory store)
+// ---------------------------------------------------------------------------
+let tasks = [
+  { id: 1, title: "Learn Git workflow", completed: false },
+  { id: 2, title: "Write CI pipeline", completed: true }
+];
+
+// --- GET /tasks ---
+
+// --- POST /tasks ---
+
+// --- PATCH /tasks/:id ---
+
+// --- DELETE /tasks/:id ---
+app.delete("/tasks/:id", (req, res) => {
+  const index = tasks.findIndex((task) => task.id === Number(req.params.id));
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  tasks.splice(index, 1);
+  return res.status(204).send();
 });
 
 if (require.main === module) {
