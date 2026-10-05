@@ -44,7 +44,23 @@ app.get("/tasks", (_req, res) => {
 // --- POST /tasks ---
 
 // --- PATCH /tasks/:id ---
+app.patch("/tasks/:id", (req, res) => {
+  const taskId = Number(req.params.id);
+  const task = tasks.find((t) => t.id === taskId);
 
+  if (!task) {
+    return res.status(404).json({ error: "Task not found" });
+  }
+
+  const { completed } = req.body;
+
+  if (typeof completed !== "boolean") {
+    return res.status(400).json({ error: "Invalid input: 'completed' must be a boolean" });
+  }
+
+  task.completed = completed;
+  return res.status(200).json(task);
+});
 // --- DELETE /tasks/:id ---
 app.delete("/tasks/:id", (req, res) => {
   const index = tasks.findIndex((task) => task.id === Number(req.params.id));
