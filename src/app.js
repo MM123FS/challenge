@@ -38,7 +38,9 @@ let tasks = [
 ];
 
 // --- GET /tasks ---
-
+app.get("/tasks", (_req, res) => {
+  res.status(200).json(tasks);
+});
 // --- POST /tasks ---
 
 // --- PATCH /tasks/:id ---
@@ -61,4 +63,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, calculateTotal };
+module.exports = { app, calculateTotal, tasks };
